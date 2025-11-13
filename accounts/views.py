@@ -346,3 +346,69 @@ def edit_questions_client(request):
     except Exception as e:
         messages.error(request, f'Error al conectar con la base de datos: {str(e)}')
         return redirect('/dashboard/')
+
+
+@login_required
+def save_question_client(request):
+    """Vista para guardar cambios en respuestas del chatbot"""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
+    if not request.user.is_client:
+        return JsonResponse({'error': 'No autorizado'}, status=403)
+    
+    # Verificar que el cliente tenga un producto chatbot activo
+    try:
+        client_profile = request.user.clientprofile
+        chatbot_product = client_profile.clientproduct_set.filter(
+            product__product_type='chatbot',
+            status='active'
+        ).first()
+        
+        if not chatbot_product:
+            return JsonResponse({'error': 'No tienes acceso a editar respuestas'}, status=403)
+    except ClientProfile.DoesNotExist:
+        return JsonResponse({'error': 'No tienes acceso a editar respuestas'}, status=403)
+    
+    # Obtener datos del formulario
+    respuesta_id = request.POST.get('respuesta_id')
+    nueva_respuesta = request.POST.get('nueva_respuesta')
+    
+    if not respuesta_id or not nueva_respuesta:
+        return JsonResponse({'error': 'Datos incompletos'}, status=400)
+    
+    # Conectar a MongoDB y actualizar
+    try:
+        mongo_uri = "mongodb://admin:superseguro123@200.58.107.187:27017/?authSource=admin"
+        client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
+        
+        # Verificar conexión
+        client.admin.command('ping')
+        
+        # Obtener la colección de respuestas
+        db = client['chatbot']
+        respuestas_collection = db['respuestas']
+        
+        # Actualizar la respuesta
+        resultado = respuestas_collection.update_one(
+            {'id': respuesta_id},
+            {'$set': {'respuesta': nueva_respuesta}}
+        )
+        
+        client.close()
+        
+        if resultado.modified_count > 0:
+            return JsonResponse({
+                'success': True,
+                'message': 'Respuesta actualizada correctamente'
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'message': 'No se encontró la respuesta o no hubo cambios'
+            }, status=404)
+        
+    except Exception as e:
+        return JsonResponse({
+            'error': f'Error al actualizar: {str(e)}'
+        }, status=500)

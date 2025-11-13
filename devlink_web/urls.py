@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client
+from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client, save_question_client
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,6 +14,7 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name='dashboard'),
     path('dashboard/whatsapp-report/', whatsapp_report_client, name='whatsapp_report_client'),
     path('dashboard/edit-questions/', edit_questions_client, name='edit_questions_client'),
+    path('dashboard/save-question/', save_question_client, name='save_question_client'),
     path('admin-panel/', include('admin_panel.urls')),
     
     # Páginas estáticas existentes
