@@ -28,6 +28,6 @@ RUN adduser --disabled-password --gecos '' appuser
 RUN chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8002
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "devlink_web.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8002", "--workers", "3", "devlink_web.wsgi:application"]

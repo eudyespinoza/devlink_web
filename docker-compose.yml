@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.devlink.entrypoints=websecure"
       - "traefik.http.routers.devlink.tls=true"
       - "traefik.http.routers.devlink.middlewares=default-sec-headers,gzip-compress"
-      - "traefik.http.services.devlink.loadbalancer.server.port=8000"
+      - "traefik.http.services.devlink.loadbalancer.server.port=8002"
     restart: unless-stopped
 
   nginx:

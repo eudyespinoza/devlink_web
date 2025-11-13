@@ -34,7 +34,7 @@ services:
     networks:
       - devlink_network
     ports:
-      - "8000:8000"  # Exponer puerto para desarrollo local
+      - "8002:8002"  # Exponer puerto para desarrollo local
     restart: unless-stopped
 
 volumes:
