@@ -13,6 +13,8 @@ services:
 
   web:
     build: .
+    container_name: devlink_web
+    command: gunicorn devlink_web.wsgi:application --bind 0.0.0.0:8002 --workers 3
     environment:
       - DEBUG=False
       - SECRET_KEY=your-super-secret-key-change-this
@@ -32,11 +34,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_proxy"
-      - "traefik.http.routers.devlink.rule=Host(`devlink.com.ar`) || Host(`www.devlink.com.ar`)"
-      - "traefik.http.routers.devlink.entrypoints=websecure"
-      - "traefik.http.routers.devlink.tls=true"
-      - "traefik.http.routers.devlink.middlewares=default-sec-headers,gzip-compress"
-      - "traefik.http.services.devlink.loadbalancer.server.port=8002"
+      - "traefik.http.routers.devlink-web.rule=Host(`devlink.com.ar`) || Host(`www.devlink.com.ar`)"
+      - "traefik.http.routers.devlink-web.entrypoints=websecure"
+      - "traefik.http.routers.devlink-web.tls=true"
+      - "traefik.http.routers.devlink-web.service=devlink-web"
+      - "traefik.http.services.devlink-web.loadbalancer.server.port=8002"
     restart: unless-stopped
 
 volumes:
