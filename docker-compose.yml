@@ -33,6 +33,7 @@ services:
       - traefik_proxy
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik_proxy"
       - "traefik.http.routers.devlink.rule=Host(`devlink.com.ar`) || Host(`www.devlink.com.ar`)"
       - "traefik.http.routers.devlink.entrypoints=websecure"
       - "traefik.http.routers.devlink.tls=true"
