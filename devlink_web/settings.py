@@ -8,6 +8,17 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-produc
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['devlink.com.ar', 'www.devlink.com.ar', 'localhost', '127.0.0.1']
 
+# CSRF Settings for Traefik/Reverse Proxy
+CSRF_TRUSTED_ORIGINS = [
+    'https://devlink.com.ar',
+    'https://www.devlink.com.ar',
+]
+
+# Security settings for production behind proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
