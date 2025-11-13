@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Producto{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Editar Producto</h1>
+                    <p class="mt-2 text-gray-600">Modifica la información del producto</p>
+                </div>
+                <a href="{% url 'admin_panel:products_list' %}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Volver a productos
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white shadow rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">Información del Producto</h2>
+            </div>
+            
+            <form method="post" class="px-6 py-6 space-y-6">
+                {% csrf_token %}
+                
+                <!-- Name Field -->
+                <div>
+                    <label for="id_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nombre del Producto
+                    </label>
+                    <input type="text" name="name" value="{{ form.name.value|default_if_none:'' }}" 
+                           id="id_name" required
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    {% if form.name.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.name.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Product Type Field -->
+                <div>
+                    <label for="id_product_type" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tipo de Producto
+                    </label>
+                    <select name="product_type" id="id_product_type" required
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Selecciona un tipo</option>
+                        <option value="chatbot" {% if form.product_type.value == 'chatbot' %}selected{% endif %}>
+                            🤖 Chatbot
+                        </option>
+                        <option value="web_simple" {% if form.product_type.value == 'web_simple' %}selected{% endif %}>
+                            🌐 Web Simple
+                        </option>
+                        <option value="suit_commerce" {% if form.product_type.value == 'suit_commerce' %}selected{% endif %}>
+                            🛒 Suite Commerce
+                        </option>
+                        <option value="automation" {% if form.product_type.value == 'automation' %}selected{% endif %}>
+                            ⚙️ Automation
+                        </option>
+                        <option value="data_migration" {% if form.product_type.value == 'data_migration' %}selected{% endif %}>
+                            📊 Data Migration
+                        </option>
+                        <option value="custom_development" {% if form.product_type.value == 'custom_development' %}selected{% endif %}>
+                            💻 Custom Development
+                        </option>
+                    </select>
+                    {% if form.product_type.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.product_type.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Description Field -->
+                <div>
+                    <label for="id_description" class="block text-sm font-medium text-gray-700 mb-2">
+                        Descripción
+                    </label>
+                    <textarea name="description" id="id_description" rows="4"
+                              class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="Describe las características y beneficios del producto...">{{ form.description.value|default_if_none:'' }}</textarea>
+                    {% if form.description.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.description.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Status Field -->
+                <div>
+                    <label for="id_status" class="block text-sm font-medium text-gray-700 mb-2">
+                        Estado del Producto
+                    </label>
+                    <select name="status" id="id_status" required
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="active" {% if form.status.value == 'active' %}selected{% endif %}>
+                            ✅ Activo
+                        </option>
+                        <option value="maintenance" {% if form.status.value == 'maintenance' %}selected{% endif %}>
+                            🔧 En Mantenimiento
+                        </option>
+                        <option value="discontinued" {% if form.status.value == 'discontinued' %}selected{% endif %}>
+                            ❌ Discontinuado
+                        </option>
+                    </select>
+                    {% if form.status.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {{ form.status.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <a href="{% url 'admin_panel:products_list' %}" 
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancelar
+                    </a>
+                    <button type="submit" 
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Product Info -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-blue-400"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-blue-800">
+                        Información del producto
+                    </h3>
+                    <div class="mt-2 text-sm text-blue-700">
+                        <p>ID: {{ object.id }}</p>
+                        <p>Creado: {{ object.created_at|date:"d/m/Y H:i" }}</p>
+                        <p>Actualizado: {{ object.updated_at|date:"d/m/Y H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

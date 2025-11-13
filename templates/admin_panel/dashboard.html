@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de Administración - DevLink{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-shield-alt text-red-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-semibold text-gray-900">Panel de Administración</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin-panel/users/" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-users"></i> Usuarios
+                    </a>
+                    <a href="/admin-panel/products/" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-box"></i> Productos
+                    </a>
+                    <span class="text-sm text-gray-700">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-users text-blue-500 text-2xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">
+                                        Total de Usuarios
+                                    </dt>
+                                    <dd class="text-lg font-medium text-gray-900">
+                                        {{ total_users }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-user-check text-green-500 text-2xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">
+                                        Usuarios Activos
+                                    </dt>
+                                    <dd class="text-lg font-medium text-gray-900">
+                                        {{ active_users }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-box text-orange-500 text-2xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">
+                                        Total Productos
+                                    </dt>
+                                    <dd class="text-lg font-medium text-gray-900">
+                                        {{ total_products }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate">
+                                        Productos Activos
+                                    </dt>
+                                    <dd class="text-lg font-medium text-gray-900">
+                                        {{ active_products }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Acciones Rápidas</h3>
+                    <div class="space-y-3">
+                        <a href="/admin-panel/users/create/" class="block w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-center">
+                            <i class="fas fa-user-plus mr-2"></i>Crear Usuario
+                        </a>
+                        <a href="/admin-panel/products/create/" class="block w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 text-center">
+                            <i class="fas fa-plus mr-2"></i>Crear Producto
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Navegación Rápida</h3>
+                    <div class="space-y-3">
+                        <a href="/admin-panel/users/" class="block w-full bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 text-center">
+                            <i class="fas fa-users mr-2"></i>Gestionar Usuarios
+                        </a>
+                        <a href="/admin-panel/products/" class="block w-full bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 text-center">
+                            <i class="fas fa-box mr-2"></i>Gestionar Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Users -->
+            <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Usuarios Recientes
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                        Los últimos 5 usuarios registrados
+                    </p>
+                </div>
+                <ul class="divide-y divide-gray-200">
+                    {% for user in recent_users %}
+                    <li>
+                        <div class="px-4 py-4 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-600"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ user.username }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ user.company_name|default:"Sin empresa" }} - {{ user.email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs text-gray-500 font-mono">{{ user.tenant_id|slice:":8" }}...</span>
+                                <a href="/admin-panel/users/{{ user.id }}/edit/" class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="px-4 py-4 text-center text-gray-500">
+                        No hay usuarios registrados
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

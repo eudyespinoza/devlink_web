@@ -1,0 +1,232 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación - devLink</title>
+  <meta name="description" content="Centro de documentación y ayuda para clientes devLink" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+</head>
+<body>
+  <header class="site-header" data-header>
+    <div class="container nav-wrapper">
+      <a href="{% url 'home' %}" class="brand">
+        <img src="https://ss-static-001.esmsv.com/r/content/host2/4172d4e2978b9da867fe259f4df844c8//editor/transparente.webp" alt="devLink" class="brand-logo" />
+        <span class="brand-text"><span></span></span>
+      </a>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" data-nav>
+        <a href="{% url 'home' %}#inicio">Inicio</a>
+        <a href="{% url 'home' %}#servicios">Servicios</a>
+        <a href="{% url 'home' %}#soluciones">Soluciones</a>
+        <a href="{% url 'home' %}#metodologia">Metodología</a>
+        <a href="{% url 'login' %}" class="nav-link">Portal Cliente</a>
+        <a href="{% url 'documentacion' %}" class="nav-link active">Documentación</a>
+        <a href="{% url 'home' %}#contacto" class="nav-cta">Agenda una consulta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Centro de ayuda</p>
+          <h1>Documentación para clientes</h1>
+          <p class="hero-text">
+            Encuentra guías detalladas y recursos para sacar el máximo provecho de tus soluciones devLink.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="doc-content">
+      <div class="container">
+        <div class="doc-grid">
+          <aside class="doc-sidebar">
+            <h3>Temas de documentación</h3>
+            <nav class="doc-nav">
+              <a href="#configuracion-dominio" class="active">Configuración de dominio</a>
+              <a href="#correo-gmail">Configurar correo en Gmail</a>
+            </nav>
+          </aside>
+          
+          <main class="doc-main">
+            <article id="configuracion-dominio" class="doc-article">
+              <header class="doc-header">
+                <h2>Configuración de dominio</h2>
+                <p>Aprende a configurar correctamente tu dominio para que funcione con nuestros servicios de hosting.</p>
+              </header>
+              
+              <div class="doc-step">
+                <h3>Paso 1: Delegación de DNS</h3>
+                <p>Para que tu dominio funcione correctamente con nuestros servicios, necesitas delegar los DNS en el lugar donde compraste tu dominio.</p>
+                
+                <div class="dns-info">
+                  <h4>Servidores DNS para tu hosting:</h4>
+                  <ul class="dns-list">
+                    <li><strong>Servidor primario:</strong> <code>ns1.donweb.com</code></li>
+                    <li><strong>Servidor secundario:</strong> <code>ns2.donweb.com</code></li>
+                  </ul>
+                </div>
+                
+                <div class="doc-note">
+                  <p><strong>Importante:</strong> Para realizar este paso, ponte en contacto con tu proveedor de dominio y solicita cambiar los servidores DNS por los mencionados anteriormente. Si tienes dudas, contáctanos y te guiaremos en el proceso.</p>
+                </div>
+              </div>
+            </article>
+            
+            <article id="correo-gmail" class="doc-article">
+              <header class="doc-header">
+                <h2>Configurar correo en Gmail</h2>
+                <p>Aprende a configurar tu correo corporativo para usarlo desde Gmail con POP3 y SMTP.</p>
+              </header>
+              
+              <div class="doc-step">
+                <h3>Paso 1: Agregar una cuenta a Gmail</h3>
+                <p>Ingresa a <a href="https://www.gmail.com/" target="_blank" rel="noopener">Gmail</a> con tu usuario y contraseña, y sigue estos pasos:</p>
+                
+                <ol>
+                  <li>Haz clic en la configuración (ícono de engranaje) y presiona "Ver toda la configuración".</li>
+                  <li>Dirígete a la pestaña "Cuentas e importación" y luego a "Consultar el correo de otras cuentas".</li>
+                  <li>Haz clic en "Añadir una cuenta de correo".</li>
+                  <li>Ingresa el nombre de la cuenta de correo que deseas configurar y presiona "Siguiente".</li>
+                  <li>Selecciona "Importar correos electrónicos de mi otra cuenta (POP3)" y haz clic en "Siguiente".</li>
+                </ol>
+                
+                <div class="dns-info">
+                  <h4>Datos de configuración POP3:</h4>
+                  <ul class="dns-list">
+                    <li><strong>Nombre de usuario:</strong> <code>tu-email@tudominio.com</code></li>
+                    <li><strong>Servidor POP:</strong> <code>mail.tudominio.com</code></li>
+                    <li><strong>Puerto:</strong> <code>995 (SSL) o 110 (sin SSL)</code></li>
+                  </ul>
+                </div>
+                
+                <div class="doc-note">
+                  <p><strong>Importante:</strong> Selecciona "Utilizar conexión segura (SSL)" y marca "dejar una copia del mensaje recuperado en el servidor" si quieres que los correos no se borren del Webmail.</p>
+                </div>
+              </div>
+              
+              <div class="doc-step">
+                <h3>Paso 2: Configurar envío de correos (SMTP)</h3>
+                <p>Para poder enviar correos desde tu dominio a través de Gmail, configura el servidor SMTP:</p>
+                
+                <ol>
+                  <li>Selecciona la opción de configurar envío y haz clic en "Siguiente".</li>
+                  <li>Ingresa el nombre que deseas mostrar al enviar mensajes y presiona "Siguiente paso".</li>
+                  <li>Completa los datos SMTP de tu cuenta:</li>
+                </ol>
+                
+                <div class="dns-info">
+                  <h4>Datos de configuración SMTP:</h4>
+                  <ul class="dns-list">
+                    <li><strong>Servidor SMTP:</strong> <code>mail.tudominio.com</code></li>
+                    <li><strong>Nombre de usuario:</strong> <code>tu-email@tudominio.com</code></li>
+                    <li><strong>Puerto:</strong> <code>465 (SSL) o 587 (TLS)</code></li>
+                  </ul>
+                </div>
+                
+                <ol start="4">
+                  <li>Selecciona "Utilizar conexión segura mediante (SSL)" y haz clic en "Añadir cuenta".</li>
+                  <li>Recibirás un correo con código de confirmación. Haz clic en el enlace o ingresa el código para verificar.</li>
+                </ol>
+                
+                <div class="doc-note">
+                  <p><strong>Nota:</strong> Para obtener los datos específicos de configuración de tu correo (servidor, puertos, etc.), consulta con devLink o revisa la documentación que te proporcionamos al crear tu cuenta de correo.</p>
+                </div>
+              </div>
+            </article>
+          </main>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="{% url 'home' %}#inicio" class="brand footer-brand">
+          <img src="https://ss-static-001.esmsv.com/r/content/host2/4172d4e2978b9da867fe259f4df844c8//editor/transparente.webp" alt="devLink" class="brand-logo" />
+        <span class="brand-text"><span></span></span>
+        </a>
+        <p>Alojamos y desarrollamos soluciones tecnológicas centradas en las personas.</p>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="mailto:info@devlink.com.ar">info@devlink.com.ar</a>
+        <a href="tel:+543434524773">+54 343 452 4773</a>
+        <a href="tel:+543764142176">+54 376 414 2176</a>
+      </div>
+      <div>
+        <h4>Síguenos</h4>
+        <div class="social-links">
+          <a href="https://www.instagram.com/devlink.com.ar/" target="_blank" rel="noopener" aria-label="Instagram devLink">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5a5.5 5.5 0 1 1 0 11.001A5.5 5.5 0 0 1 12 7.5zm0 2a3.5 3.5 0 1 0 .001 7.001A3.5 3.5 0 0 0 12 9.5zm5.75-3a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note">&copy; <span data-year></span> devLink. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const header = document.querySelector('[data-header]');
+    const nav = document.querySelector('[data-nav]');
+    const navToggle = document.querySelector('[data-nav-toggle]');
+    const navLinks = [...document.querySelectorAll('[data-nav] a')];
+    let lastScroll = 0;
+
+    const threshold = 120;
+    const delta = 8;
+
+    window.addEventListener('scroll', () => {
+      const current = window.pageYOffset;
+      const goingUp = current < lastScroll - delta;
+      const goingDown = current > lastScroll + delta;
+
+      if (current > threshold) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+
+      if (nav.classList.contains('is-open')) {
+        header.classList.remove('header-hidden');
+        lastScroll = current;
+        return;
+      }
+
+      if (goingDown && current > threshold) {
+        header.classList.add('header-hidden');
+      } else if (goingUp) {
+        header.classList.remove('header-hidden');
+      }
+
+      lastScroll = current <= 0 ? 0 : current;
+    });
+
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open');
+      document.body.classList.toggle('no-scroll', !expanded);
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        document.body.classList.remove('no-scroll');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.querySelector('[data-year]').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

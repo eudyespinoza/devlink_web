@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: devlink_db
+      POSTGRES_USER: devlink_user
+      POSTGRES_PASSWORD: devlink_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - devlink_network
+    restart: unless-stopped
+    ports:
+      - "5434:5432"  # Para desarrollo local
+
+  web:
+    build: .
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=your-super-secret-key-change-this
+      - DB_NAME=devlink_db
+      - DB_USER=devlink_user
+      - DB_PASSWORD=devlink_pass
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - .:/app  # Para desarrollo - hot reload
+    depends_on:
+      - db
+    networks:
+      - devlink_network
+    ports:
+      - "8000:8000"  # Exponer puerto para desarrollo local
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  devlink_network:
+    driver: bridge

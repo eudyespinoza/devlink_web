@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenidos a devLink - Acceso a su servicio</title>
+    <style>
+        /* Estilos para compatibilidad con clientes de correo */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1264f6, #1392ff);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo-img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: none; /* Ocultar el texto del logo */
+        }
+        
+        .logo span {
+            color: #06d6ff;
+        }
+        
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .welcome-text {
+            font-size: 18px;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            border-left: 4px solid #1264f6;
+        }
+        
+        .section h2 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            color: #1264f6;
+            font-weight: 600;
+        }
+        
+        .credentials {
+            background-color: #ecf1f8;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .credentials strong {
+            color: #1e293b;
+            display: inline-block;
+            min-width: 100px;
+        }
+        
+        .credentials code {
+            background-color: #1264f6;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .pricing-table th,
+        .pricing-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .pricing-table th {
+            background-color: #1264f6;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .pricing-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .price {
+            font-weight: 700;
+            color: #1264f6;
+            font-size: 16px;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #1264f6, #1392ff);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(18,100,246,0.3);
+        }
+        
+        .important-note {
+            background: linear-gradient(135deg, #06d6ff, #3df0ff);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 25px 0;
+        }
+        
+        .footer {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .footer a {
+            color: #06d6ff;
+            text-decoration: none;
+        }
+        
+        .contact-info {
+            margin: 15px 0;
+        }
+        
+        .contact-info a {
+            color: #06d6ff;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+        
+        /* Responsividad para móviles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content,
+            .header,
+            .footer {
+                padding: 25px 20px;
+            }
+            
+            .section {
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://ss-static-001.esmsv.com/r/content/host2/4172d4e2978b9da867fe259f4df844c8//editor/transparente.webp" alt="devLink" class="logo-img">
+            <p class="header-subtitle">Imaginá. Nosotros lo hacemos posible</p>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="content">
+            <p class="welcome-text">
+                ¡Hola equipo de <strong>ADN Soft</strong>! 👋
+            </p>
+            
+            <p>Es un placer darles la bienvenida a devLink. Su servicio ya está activo y listo para usar. A continuación encontrarán toda la información necesaria para comenzar.</p>
+            
+            <!-- Sección de acceso al panel -->
+            <div class="section">
+                <h2>🔐 Acceso a su Panel de Control</h2>
+                <p>Desde su panel podrán crear y modificar cuentas de email, administrar su sitio web y mucho más:</p>
+                
+                <div class="credentials">
+                    <p><strong>URL:</strong> <code>https://app.easybuild.website/</code></p>
+                    <p><strong>Usuario:</strong> <code>adnsoftadmin</code></p>
+                    <p><strong>Contraseña:</strong> <code>Adnadmin2509</code></p>
+                </div>
+                
+                <a href="https://app.easybuild.website/" class="button">Acceder al Panel</a>
+                
+                <div class="important-note" style="margin: 20px 0;">
+                    <strong>⚠️ Importante:</strong> Tienen control total sobre la gestión de correos y modificaciones del sitio web desde este panel. Todas las acciones realizadas quedan bajo su responsabilidad.
+                </div>
+                
+                <p><small>💡 Les recomendamos cambiar su contraseña después del primer acceso por seguridad.</small></p>
+            </div>
+            
+            <!-- Sección de servicios incluidos -->
+            <div class="section">
+                <h2>✅ Servicios Incluidos</h2>
+                <ul>
+                    <li><strong>Dominio:</strong> https://adnsoftsrl.com/</li>
+                    <li><strong>Hosting web</strong> con espacio ilimitado</li>
+                    <li><strong>Certificado SSL</strong> (conexión segura HTTPS)</li>
+                    <li><strong>Hasta 20 cuentas de correo</strong> corporativo</li>
+                    <li><strong>Backup diario</strong> automático</li>
+                    <li><strong>Soporte técnico</strong> personalizado</li>
+                </ul>
+            </div>
+            
+            <!-- Condiciones de servicio -->
+            <div class="section">
+                <h2>💰 Condiciones de Servicio</h2>
+                
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Precio</th>
+                            <th>Facturación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mantenimiento de dominio</td>
+                            <td class="price">USD $40</td>
+                            <td>Anual</td>
+                        </tr>
+                        
+                <p><small>📅 La próxima factura se emitirá el <strong>25/09/2026</strong></small></p>
+            </div>
+            
+            <!-- Configuración inicial -->
+            <div class="section">
+                <h2>🚀 Primeros Pasos</h2>
+                <ol>
+                    <li><strong>Crear cuentas de correo:</strong> Ingresen al panel y vayan a la sección "Correo" para crear las direcciones que necesiten</li>
+                    <li><strong>Configurar Gmail:</strong> Una vez creadas las cuentas, visiten nuestra <a href="https://devlink.com.ar/documentacion">documentación</a> para configurarlas en Gmail</li>
+                    <li><strong>Subir sitio web:</strong> Usen el administrador de archivos del panel para subir su contenido</li>
+                    <li><strong>Verificar SSL:</strong> Su certificado se activará automáticamente en 24-48 horas</li>
+                </ol>
+            </div>
+            
+            <!-- Nota importante -->
+            <div class="important-note">
+                <strong>🔒 Seguridad y confidencialidad</strong><br>
+                Sus datos están protegidos con los más altos estándares de seguridad. Nunca compartiremos su información personal ni comercial con terceros.
+            </div>
+            
+            <p>Si tienen alguna pregunta o necesitan ayuda, no duden en contactarnos. Estamos aquí para apoyarlos en cada paso.</p>
+            
+            <p>¡Bienvenidos a la familia devLink! 🎉</p>
+            
+            <p>Saludos cordiales,<br>
+            <strong>El equipo de devLink</strong></p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>devLink</strong> - Imaginá. Nosotros lo hacemos posible</p>
+            
+            <div class="contact-info">
+                <a href="mailto:info@devlink.com.ar">info@devlink.com.ar</a>
+                <a href="tel:+543434524773">+54 343 452 4773</a>
+                <a href="tel:+543764142176">+54 376 414 2176</a>
+            </div>
+            
+            <p>
+                <a href="https://devlink.com.ar">www.devlink.com.ar</a> | 
+                <a href="https://devlink.com.ar/documentacion">Centro de ayuda</a>
+            </p>
+            
+            <p><small>© 2025 devLink. Todos los derechos reservados.</small></p>
+        </div>
+    </div>
+</body>
+</html>

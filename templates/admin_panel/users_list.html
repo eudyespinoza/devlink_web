@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestión de Usuarios - DevLink{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-shield-alt text-red-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-semibold text-gray-900">Gestión de Usuarios</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin-panel/" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-dashboard"></i> Dashboard
+                    </a>
+                    <span class="text-sm text-gray-700">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <!-- Header -->
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Usuarios del Sistema</h2>
+                    <p class="text-gray-600">Administra todos los usuarios clientes</p>
+                </div>
+                <a href="/admin-panel/users/create/" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>Crear Usuario
+                </a>
+            </div>
+
+            <!-- Search -->
+            <div class="mb-6">
+                <form method="get" class="flex gap-4">
+                    <input type="text" name="search" value="{{ search_query }}" 
+                           placeholder="Buscar por usuario, email o empresa..." 
+                           class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Users Table -->
+            <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                <ul class="divide-y divide-gray-200">
+                    {% for user_obj in users %}
+                    <li>
+                        <div class="px-4 py-4 flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-12 w-12">
+                                    <div class="h-12 w-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-600"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ user_obj.username }}
+                                        {% if not user_obj.is_active %}
+                                            <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                Inactivo
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ user_obj.company_name|default:"Sin empresa" }} - {{ user_obj.email }}
+                                    </div>
+                                    <div class="text-xs text-gray-400 font-mono">
+                                        Tenant: {{ user_obj.tenant_id|slice:":8" }}...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                                    {{ user_obj.clientprofile.products.count }} producto{{ user_obj.clientprofile.products.count|pluralize }}
+                                </span>
+                                <span class="text-xs text-gray-500">
+                                    {{ user_obj.date_joined|date:"d/m/Y" }}
+                                </span>
+                                <a href="/admin-panel/users/{{ user_obj.id }}/products/" 
+                                   class="text-green-600 hover:text-green-900" title="Gestionar productos">
+                                    <i class="fas fa-box"></i>
+                                </a>
+                                <a href="/admin-panel/users/{{ user_obj.id }}/edit/" 
+                                   class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/admin-panel/users/{{ user_obj.id }}/delete/" 
+                                   class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    {% empty %}
+                    <li class="px-4 py-8 text-center text-gray-500">
+                        {% if search_query %}
+                            No se encontraron usuarios que coincidan con "{{ search_query }}"
+                        {% else %}
+                            No hay usuarios registrados
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

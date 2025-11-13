@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Cliente - devLink</title>
+  <meta name="description" content="Accede a tu panel de cliente devLink" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+</head>
+<body>
+  <header class="site-header" data-header>
+    <div class="container nav-wrapper">
+      <a href="{% url 'home' %}" class="brand">
+        <img src="https://ss-static-001.esmsv.com/r/content/host2/4172d4e2978b9da867fe259f4df844c8//editor/transparente.webp" alt="devLink" class="brand-logo" />
+        <span class="brand-text">dev<span>Link</span></span>
+      </a>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" data-nav>
+        <a href="{% url 'home' %}#inicio">Inicio</a>
+        <a href="{% url 'home' %}#servicios">Servicios</a>
+        <a href="{% url 'home' %}#soluciones">Soluciones</a>
+        <a href="{% url 'home' %}#metodologia">Metodología</a>
+        <a href="{% url 'login' %}" class="nav-link active">Portal Cliente</a>
+        <a href="{% url 'documentacion' %}" class="nav-link">Documentación</a>
+        <a href="{% url 'home' %}#contacto" class="nav-cta">Agenda una consulta</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Acceso exclusivo</p>
+          <h1>Portal Cliente</h1>
+          <p class="hero-text">
+            Accede a tu panel de configuraciones y gestiona tus productos devLink.
+          </p>
+          <ul class="hero-bullets">
+            <li>Gestiona tus productos contratados</li>
+            <li>Consulta tu documentación personalizada</li>
+            <li>Soporte técnico dedicado</li>
+          </ul>
+        </div>
+        <div class="hero-media">
+          <div class="doc-main" style="max-width: 400px;">
+            <div class="doc-article">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="doc-note" style="margin-bottom: 24px; background: linear-gradient(135deg, #ef4444, #dc2626);">
+                    <p><strong>Error:</strong> {{ message }}</p>
+                  </div>
+                {% endfor %}
+              {% endif %}
+
+              <form method="post" style="display: flex; flex-direction: column; gap: 20px;">
+                {% csrf_token %}
+                
+                <div>
+                  <label for="username" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--neutral-900); font-size: 14px;">Usuario</label>
+                  <input 
+                    id="username" 
+                    name="username" 
+                    type="text" 
+                    required 
+                    style="width: 100%; padding: 10px 14px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-size: 15px;"
+                    placeholder="Ingresa tu usuario">
+                </div>
+                
+                <div>
+                  <label for="password" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--neutral-900); font-size: 14px;">Contraseña</label>
+                  <input 
+                    id="password" 
+                    name="password" 
+                    type="password" 
+                    required 
+                    style="width: 100%; padding: 10px 14px; border: 1px solid var(--neutral-300); border-radius: var(--radius-sm); font-size: 15px;"
+                    placeholder="Ingresa tu contraseña">
+                </div>
+
+                <button 
+                  type="submit" 
+                  class="btn btn-primary"
+                  style="width: 100%; margin-top: 4px;">
+                  Iniciar Sesión
+                </button>
+              </form>
+
+              <div class="doc-note" style="margin-top: 24px; font-size: 13px;">
+                <p><strong>¿Necesitas ayuda?</strong> Contacta a soporte en <a href="mailto:info@devlink.com.ar" style="color: white; text-decoration: underline;">info@devlink.com.ar</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="{% url 'home' %}#inicio" class="brand footer-brand">
+          <img src="https://ss-static-001.esmsv.com/r/content/host2/4172d4e2978b9da867fe259f4df844c8//editor/transparente.webp" alt="devLink" class="brand-logo" />
+        <span class="brand-text">dev<span>Link</span></span>
+        </a>
+        <p>Alojamos y desarrollamos soluciones tecnológicas centradas en las personas.</p>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="mailto:info@devlink.com.ar">info@devlink.com.ar</a>
+        <a href="tel:+543434524773">+54 343 452 4773</a>
+        <a href="tel:+543764142176">+54 376 414 2176</a>
+      </div>
+      <div>
+        <h4>Síguenos</h4>
+        <div class="social-links">
+          <a href="https://www.instagram.com/devlink.com.ar/" target="_blank" rel="noopener" aria-label="Instagram devLink">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5a5.5 5.5 0 1 1 0 11.001A5.5 5.5 0 0 1 12 7.5zm0 2a3.5 3.5 0 1 0 .001 7.001A3.5 3.5 0 0 0 12 9.5zm5.75-3a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note">&copy; <span data-year></span> devLink. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    const header = document.querySelector('[data-header]');
+    const nav = document.querySelector('[data-nav]');
+    const navToggle = document.querySelector('[data-nav-toggle]');
+    const navLinks = [...document.querySelectorAll('[data-nav] a')];
+    let lastScroll = 0;
+
+    const threshold = 120;
+    const delta = 8;
+
+    window.addEventListener('scroll', () => {
+      const current = window.pageYOffset;
+      const goingUp = current < lastScroll - delta;
+      const goingDown = current > lastScroll + delta;
+
+      if (current > threshold) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+
+      if (nav.classList.contains('is-open')) {
+        header.classList.remove('header-hidden');
+        lastScroll = current;
+        return;
+      }
+
+      if (goingDown && current > threshold) {
+        header.classList.add('header-hidden');
+      } else if (goingUp) {
+        header.classList.remove('header-hidden');
+      }
+
+      lastScroll = current <= 0 ? 0 : current;
+    });
+
+    navToggle.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open');
+      document.body.classList.toggle('no-scroll', !expanded);
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        document.body.classList.remove('no-scroll');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.querySelector('[data-year]').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

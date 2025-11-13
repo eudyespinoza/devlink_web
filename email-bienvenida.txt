@@ -1,0 +1,69 @@
+BIENVENIDO A DEVLINK - Tu servicio ya está activo
+===============================================
+Imaginá. Nosotros lo hacemos posible
+
+¡Hola [NOMBRE_CLIENTE]! 👋
+
+Es un placer darte la bienvenida a devLink. Tu servicio ya está activo y listo para usar. A continuación encontrarás toda la información necesaria para comenzar.
+
+🔐 ACCESO A TU PANEL DE CONTROL
+------------------------------
+Desde tu panel podrás gestionar correos, crear y modificar cuentas de email, 
+administrar archivos de tu sitio web, bases de datos y mucho más:
+
+• URL: [PANEL_URL]
+• Usuario: [USUARIO_PANEL]
+• Contraseña: [CONTRASEÑA_PANEL]
+
+⚠️ IMPORTANTE: Tienes control total sobre la gestión de correos y modificaciones 
+del sitio web desde este panel. Todas las acciones realizadas quedan bajo tu 
+responsabilidad.
+
+💡 Te recomendamos cambiar tu contraseña después del primer acceso por seguridad.
+
+✅ SERVICIOS INCLUIDOS
+--------------------
+• Dominio: [DOMINIO_CLIENTE]
+• Hosting web con espacio ilimitado
+• Certificado SSL (conexión segura HTTPS)
+• Hasta 20 cuentas de correo corporativo
+• Backup diario automático
+• Soporte técnico personalizado
+
+💰 CONDICIONES DE SERVICIO
+-------------------------
+• Mantenimiento de dominio: USD $40 (anual)
+• Mantenimiento + hosting + correos (hasta 20 cuentas): USD $40 (mensual)
+
+📅 La próxima factura se emitirá el [FECHA_PROXIMA_FACTURA]
+
+🚀 PRIMEROS PASOS
+---------------
+1. Crea tus cuentas de correo: Ingresa al panel y ve a la sección "Correo" para crear las direcciones que necesites
+2. Configura Gmail: Una vez creadas las cuentas, visita https://devlink.com.ar/documentacion para configurarlas en Gmail
+3. Sube tu sitio web: Usa el administrador de archivos del panel para subir tu contenido
+4. Verifica SSL: Tu certificado se activará automáticamente en 24-48 horas
+
+🔒 SEGURIDAD Y CONFIDENCIALIDAD
+------------------------------
+Tus datos están protegidos con los más altos estándares de seguridad. 
+Nunca compartiremos tu información personal ni comercial con terceros.
+
+Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. 
+Estamos aquí para apoyarte en cada paso.
+
+¡Bienvenido a la familia devLink! 🎉
+
+Saludos cordiales,
+El equipo de devLink
+
+---
+CONTACTO
+--------
+📧 info@devlink.com.ar
+📞 +54 343 452 4773
+📞 +54 376 414 2176
+🌐 https://devlink.com.ar
+📚 Centro de ayuda: https://devlink.com.ar/documentacion
+
+© 2024 devLink. Todos los derechos reservados.

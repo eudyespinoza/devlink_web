@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reporte WhatsApp - {{ user_obj.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="hero" style="padding: 2rem 0; background: var(--primary);">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h1 style="color: white; margin: 0;">📊 Reporte de Interacciones WhatsApp</h1>
+                <p style="color: rgba(255,255,255,0.9); margin-top: 0.5rem;">Cliente: {{ user_obj.get_full_name }}</p>
+            </div>
+            <div style="text-align: right;">
+                <p style="color: white; font-size: 0.9rem; margin: 0;">
+                    <i class="fas fa-clock"></i> Última actualización:
+                </p>
+                <p id="ultima-actualizacion" style="color: white; font-weight: bold; margin: 0.25rem 0;">{{ fecha_reporte }}</p>
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.75rem; margin: 0;">
+                    <i class="fas fa-sync-alt"></i> Actualización automática cada 3 min
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding: 2rem 0;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'admin_panel:user_products' user_obj.id %}" class="btn btn-primary">← Volver a Productos</a>
+    </div>
+
+    <!-- Estadísticas Generales -->
+    <div class="doc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary);">{{ total_consultas }}</div>
+            <div style="color: #666; margin-top: 0.5rem;">Total Consultas</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: var(--accent);">{{ total_preguntas }}</div>
+            <div style="color: #666; margin-top: 0.5rem;">Preguntas Diferentes</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #28a745;">{{ total_usuarios_unicos }}</div>
+            <div style="color: #666; margin-top: 0.5rem;">Usuarios Únicos</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #ff6b6b;">{{ promedio_usuario }}</div>
+            <div style="color: #666; margin-top: 0.5rem;">Promedio/Usuario</div>
+        </div>
+    </div>
+
+    <!-- Top 10 Preguntas Más Consultadas -->
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 3rem;">
+        <h2 style="color: var(--primary); margin-top: 0; margin-bottom: 1.5rem;">🏆 Top 10 Preguntas Más Consultadas</h2>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f8f9fa; border-bottom: 2px solid var(--primary);">
+                        <th style="padding: 1rem; text-align: left; font-weight: 600;">#</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 600;">Pregunta</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 600;">Consultas</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 600;">Usuarios</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 600;">Última Consulta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in top_10 %}
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <td style="padding: 1rem; font-weight: bold; color: var(--primary);">{{ forloop.counter }}</td>
+                        <td style="padding: 1rem;">{{ item.pregunta }}</td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <span style="background: var(--primary); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.9rem;">
+                                {{ item.total_consultas }}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">{{ item.usuarios_unicos }}</td>
+                        <td style="padding: 1rem; font-size: 0.9rem; color: #666;">{{ item.ultima_consulta }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Todas las Preguntas -->
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--primary); margin-top: 0; margin-bottom: 0.5rem;">📋 Detalle de Todas las Preguntas</h2>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1.5rem;">Mostrando página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</p>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f8f9fa; border-bottom: 2px solid var(--primary);">
+                        <th style="padding: 1rem; text-align: left; font-weight: 600;">Pregunta</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 600;">Consultas</th>
+                        <th style="padding: 1rem; text-align: center; font-weight: 600;">Usuarios</th>
+                        <th style="padding: 1rem; text-align: left; font-weight: 600;">Última Consulta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in page_obj %}
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <td style="padding: 1rem;">{{ item.pregunta }}</td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <span style="background: var(--accent); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.9rem;">
+                                {{ item.total_consultas }}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">{{ item.usuarios_unicos }}</td>
+                        <td style="padding: 1rem; font-size: 0.9rem; color: #666;">{{ item.ultima_consulta }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Paginación -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center;">
+            <div style="color: #666; font-size: 0.9rem;">
+                Mostrando <strong>{{ page_obj.start_index }}</strong> a 
+                <strong>{{ page_obj.end_index }}</strong> de 
+                <strong>{{ page_obj.paginator.count }}</strong> resultados
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                {% if page_obj.has_previous %}
+                <a href="?page=1" style="padding: 0.5rem 1rem; background: white; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">
+                    Primera
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}" style="padding: 0.5rem 1rem; background: white; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span style="padding: 0.5rem 1rem; background: var(--primary); color: white; border-radius: 6px; font-size: 0.9rem;">
+                    Página {{ page_obj.number }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" style="padding: 0.5rem 1rem; background: white; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">
+                    Siguiente
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" style="padding: 0.5rem 1rem; background: white; border: 1px solid #d1d5db; border-radius: 6px; text-decoration: none; color: #374151; font-size: 0.9rem;">
+                    Última
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer del Reporte -->
+    <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; text-align: center;">
+        <p style="color: #666; margin: 0; font-size: 0.9rem;">
+            <i class="fas fa-info-circle"></i> Los datos se actualizan automáticamente mientras la página permanezca abierta
+        </p>
+    </div>
+</div>
+
+<script>
+    // Recargar la página cada 3 minutos (180,000 milisegundos)
+    setTimeout(function() {
+        location.reload();
+    }, 180000);
+</script>
+{% endblock %}

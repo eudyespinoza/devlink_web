@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Edición de Preguntas y Respuestas - {{ user.company_name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+            padding: 20px;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 24px 28px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3);
+        }
+
+        .header-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-meta {
+            margin-top: 8px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            margin-top: 12px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px 22px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .menu-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .menu-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 4px;
+            white-space: pre-line;
+        }
+
+        .menu-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .respuesta-block {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #e5e7eb;
+        }
+
+        .respuesta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+
+        .respuesta-id {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .respuesta-actual-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .respuesta-actual-text {
+            font-size: 13px;
+            color: #374151;
+            background: #f9fafb;
+            padding: 8px 10px;
+            border-radius: 6px;
+            white-space: pre-line;
+            flex: 1;
+        }
+
+        .btn-editar {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.2s;
+        }
+
+        .btn-editar:hover {
+            background: #2563eb;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 16px;
+        }
+
+        .modal-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 13px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            margin-bottom: 16px;
+        }
+
+        .modal-textarea:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 1px #4f46e5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancelar {
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancelar:hover {
+            background: #d1d5db;
+        }
+
+        .btn-guardar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-guardar:hover {
+            opacity: 0.9;
+        }
+
+        .respuesta-nueva-label {
+            font-size: 12px;
+            color: #4b5563;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 70px;
+            resize: vertical;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 13px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        textarea:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 1px #4f46e5;
+        }
+
+        .no-respuestas {
+            font-size: 12px;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .submit-bar {
+            position: sticky;
+            bottom: 0;
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .submit-inner {
+            background: rgba(243, 244, 246, 0.9);
+            border-top: 1px solid #e5e7eb;
+            backdrop-filter: blur(6px);
+            padding: 12px 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            appearance: none;
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.35);
+        }
+
+        .btn-icon {
+            font-size: 16px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="header">
+        <div class="header-title">Edición de Preguntas y Respuestas</div>
+        <div class="header-subtitle">{{ user.company_name|default:"Bot WhatsApp" }}</div>
+        <div class="header-meta">Formulario generado el {{ fecha_actual }}</div>
+        <div class="header-actions">
+            <a href="{% url 'dashboard' %}" class="btn-back">
+                ← Volver al Dashboard
+            </a>
+        </div>
+    </div>
+
+    {% for menu in menus %}
+        <div class="menu-card">
+            <div class="menu-header">
+                <div>
+                    <div class="menu-title">{{ menu.menu|default:"Sin título" }}</div>
+                    {% if menu.submenu %}
+                    <div class="menu-subtitle">{{ menu.submenu }}</div>
+                    {% endif %}
+                </div>
+                <div class="menu-badge">Menú ID: {{ menu.id|default:"N/A" }}</div>
+            </div>
+            
+            {% if not menu.respuestas %}
+            <div class="no-respuestas">
+                No hay respuestas configuradas para este menú.
+            </div>
+            {% else %}
+                {% for resp in menu.respuestas %}
+                <div class="respuesta-block">
+                    <div class="respuesta-header">
+                        <div class="respuesta-id">
+                            {% if resp.opcion %}
+                                Opción {{ resp.opcion }} - {{ resp.descripcion }}
+                            {% else %}
+                                Respuesta ID: {{ resp.id|default:forloop.counter }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: start; gap: 10px;">
+                        <div class="respuesta-actual-text">{{ resp.respuesta|default:"Sin respuesta" }}</div>
+                        <button type="button" class="btn-editar" onclick="abrirModal('{{ resp.id|default:forloop.counter }}', '{% if resp.opcion %}Opción {{ resp.opcion }} - {{ resp.descripcion|escapejs }}{% else %}Respuesta ID: {{ resp.id|default:forloop.counter }}{% endif %}', '{{ resp.respuesta|default:""|escapejs }}')">
+                            ✏️ Editar
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="modal" id="modalEditar">
+        <div class="modal-content">
+            <div class="modal-header" id="modalTitle">Editar Respuesta</div>
+            <form id="formEditar" method="post" action="https://chatbot.devlink.com.ar/webhook/recibir-formulario">
+                {% csrf_token %}
+                <label class="modal-label">Respuesta:</label>
+                <textarea id="modalTextarea" class="modal-textarea" name="nueva_respuesta"></textarea>
+                <input type="hidden" id="modalRespuestaId" name="respuesta_id">
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn-guardar">💾 Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(respuestaId, titulo, textoActual) {
+            document.getElementById('modalTitle').textContent = 'Editar: ' + titulo;
+            document.getElementById('modalTextarea').value = textoActual;
+            document.getElementById('modalRespuestaId').value = respuestaId;
+            document.getElementById('modalEditar').classList.add('active');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalEditar').classList.remove('active');
+            document.getElementById('formEditar').reset();
+        }
+
+        // Cerrar modal al hacer clic fuera de él
+        document.getElementById('modalEditar').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
