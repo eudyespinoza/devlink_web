@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, ClientProfile, Product, ClientProduct
+from .models import CustomUser, ClientProfile, Product, ClientProduct, ContactRequest
 
 class ClientProductInline(admin.TabularInline):
     model = ClientProduct
@@ -46,5 +46,30 @@ class ClientProductAdmin(admin.ModelAdmin):
     list_filter = ('status', 'product__product_type', 'start_date')
     search_fields = ('client__user__username', 'product__name')
     date_hierarchy = 'start_date'
+
+@admin.register(ContactRequest)
+class ContactRequestAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'email', 'empresa', 'status', 'newsletter', 'created_at')
+    list_filter = ('status', 'newsletter', 'created_at')
+    search_fields = ('nombre', 'email', 'empresa', 'proyecto')
+    readonly_fields = ('created_at', 'updated_at')
+    date_hierarchy = 'created_at'
+    ordering = ('-created_at',)
+    
+    fieldsets = (
+        ('Información de Contacto', {
+            'fields': ('nombre', 'email', 'empresa')
+        }),
+        ('Consulta', {
+            'fields': ('proyecto', 'newsletter')
+        }),
+        ('Seguimiento', {
+            'fields': ('status', 'notes')
+        }),
+        ('Fechas', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
 
 admin.site.register(CustomUser, CustomUserAdmin)

@@ -3,7 +3,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.db.models import Q
-from accounts.models import CustomUser, ClientProfile, Product, ClientProduct
+from accounts.models import CustomUser, ClientProfile, Product, ClientProduct, ContactRequest
 from django.contrib.auth import get_user_model
 from pymongo import MongoClient
 from collections import defaultdict
@@ -22,12 +22,20 @@ def admin_dashboard(request):
     total_products = Product.objects.count()
     active_products = Product.objects.filter(status='active').count()
     
+    # Estadísticas de contactos
+    total_contacts = ContactRequest.objects.count()
+    pending_contacts = ContactRequest.objects.filter(status='pending').count()
+    recent_contacts = ContactRequest.objects.order_by('-created_at')[:5]
+    
     context = {
         'total_users': total_users,
         'active_users': active_users,
         'recent_users': recent_users,
         'total_products': total_products,
         'active_products': active_products,
+        'total_contacts': total_contacts,
+        'pending_contacts': pending_contacts,
+        'recent_contacts': recent_contacts,
     }
     return render(request, 'admin_panel/dashboard.html', context)
 
@@ -535,3 +543,75 @@ def whatsapp_report(request, user_id):
     except Exception as e:
         messages.error(request, f'Error al conectar con MongoDB: {str(e)}')
         return redirect('admin_panel:user_products', user_id=user_id)
+
+
+# ============= CONSULTAS DE CONTACTO =============
+
+@user_passes_test(is_superuser)
+def contact_requests_list(request):
+    from accounts.models import ContactRequest
+    
+    search_query = request.GET.get('search', '')
+    status_filter = request.GET.get('status', '')
+    
+    contacts = ContactRequest.objects.all()
+    
+    if search_query:
+        contacts = contacts.filter(
+            Q(nombre__icontains=search_query) |
+            Q(email__icontains=search_query) |
+            Q(empresa__icontains=search_query) |
+            Q(proyecto__icontains=search_query)
+        )
+    
+    if status_filter:
+        contacts = contacts.filter(status=status_filter)
+    
+    # Estadísticas
+    total_contacts = ContactRequest.objects.count()
+    pending_contacts = ContactRequest.objects.filter(status='pending').count()
+    contacted_contacts = ContactRequest.objects.filter(status='contacted').count()
+    converted_contacts = ContactRequest.objects.filter(status='converted').count()
+    
+    context = {
+        'contacts': contacts,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'total_contacts': total_contacts,
+        'pending_contacts': pending_contacts,
+        'contacted_contacts': contacted_contacts,
+        'converted_contacts': converted_contacts,
+    }
+    return render(request, 'admin_panel/contact_requests_list.html', context)
+
+
+@user_passes_test(is_superuser)
+def contact_request_detail(request, contact_id):
+    from accounts.models import ContactRequest
+    
+    contact = get_object_or_404(ContactRequest, id=contact_id)
+    
+    if request.method == 'POST':
+        contact.status = request.POST.get('status', contact.status)
+        contact.notes = request.POST.get('notes', '')
+        contact.save()
+        messages.success(request, f'Consulta de {contact.nombre} actualizada.')
+        return redirect('admin_panel:contact_requests')
+    
+    context = {'contact': contact}
+    return render(request, 'admin_panel/contact_request_detail.html', context)
+
+
+@user_passes_test(is_superuser)
+def contact_request_delete(request, contact_id):
+    from accounts.models import ContactRequest
+    
+    contact = get_object_or_404(ContactRequest, id=contact_id)
+    
+    if request.method == 'POST':
+        nombre = contact.nombre
+        contact.delete()
+        messages.success(request, f'Consulta de {nombre} eliminada.')
+        return redirect('admin_panel:contact_requests')
+    
+    return redirect('admin_panel:contact_requests')

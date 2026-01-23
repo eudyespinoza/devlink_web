@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Consulta #{{ contact.id }} - DevLink{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-envelope text-red-600 text-2xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-semibold text-gray-900">Detalle de Consulta</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin-panel/contact-requests/" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-arrow-left"></i> Volver a consultas
+                    </a>
+                    <a href="/admin-panel/" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-dashboard"></i> Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="max-w-4xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <!-- Contact Info Card -->
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            Consulta #{{ contact.id }}
+                        </h3>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                            Recibida el {{ contact.created_at|date:"d/m/Y" }} a las {{ contact.created_at|time:"H:i" }}
+                        </p>
+                    </div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
+                        {% if contact.status == 'pending' %}bg-yellow-100 text-yellow-800
+                        {% elif contact.status == 'contacted' %}bg-blue-100 text-blue-800
+                        {% elif contact.status == 'converted' %}bg-green-100 text-green-800
+                        {% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {{ contact.get_status_display }}
+                    </span>
+                </div>
+                <div class="border-t border-gray-200">
+                    <dl>
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                <i class="fas fa-user mr-2"></i>Nombre
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {{ contact.nombre }}
+                            </dd>
+                        </div>
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                <i class="fas fa-envelope mr-2"></i>Email
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <a href="mailto:{{ contact.email }}" class="text-blue-600 hover:text-blue-800">
+                                    {{ contact.email }}
+                                </a>
+                            </dd>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                <i class="fas fa-building mr-2"></i>Empresa
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {{ contact.empresa|default:"No especificada" }}
+                            </dd>
+                        </div>
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                <i class="fas fa-newspaper mr-2"></i>Newsletter
+                            </dt>
+                            <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+                                {% if contact.newsletter %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check mr-1"></i> Suscripto
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        No suscripto
+                                    </span>
+                                {% endif %}
+                            </dd>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                <i class="fas fa-project-diagram mr-2"></i>Proyecto/Consulta
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 whitespace-pre-wrap">
+                                {{ contact.proyecto }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Update Status Form -->
+            <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                        <i class="fas fa-edit mr-2"></i>Actualizar Estado
+                    </h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
+                                <select id="status" name="status" 
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border">
+                                    <option value="pending" {% if contact.status == 'pending' %}selected{% endif %}>Pendiente</option>
+                                    <option value="contacted" {% if contact.status == 'contacted' %}selected{% endif %}>Contactado</option>
+                                    <option value="converted" {% if contact.status == 'converted' %}selected{% endif %}>Convertido</option>
+                                    <option value="discarded" {% if contact.status == 'discarded' %}selected{% endif %}>Descartado</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="notes" class="block text-sm font-medium text-gray-700">Notas internas</label>
+                                <textarea id="notes" name="notes" rows="4" 
+                                          class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                          placeholder="Agrega notas sobre el seguimiento de esta consulta...">{{ contact.notes }}</textarea>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-500">
+                                    Última actualización: {{ contact.updated_at|date:"d/m/Y H:i" }}
+                                </p>
+                                <div class="flex space-x-3">
+                                    <a href="/admin-panel/contact-requests/" 
+                                       class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">
+                                        Cancelar
+                                    </a>
+                                    <button type="submit" 
+                                            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                        <i class="fas fa-save mr-2"></i>Guardar Cambios
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mt-6 flex justify-between items-center">
+                <a href="mailto:{{ contact.email }}?subject=Re: Consulta desde devLink.com.ar" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    <i class="fas fa-reply mr-2"></i>Responder por Email
+                </a>
+                <form method="post" action="/admin-panel/contact-requests/{{ contact.id }}/delete/" 
+                      onsubmit="return confirm('¿Estás seguro de eliminar esta consulta? Esta acción no se puede deshacer.')">
+                    {% csrf_token %}
+                    <button type="submit" 
+                            class="inline-flex items-center px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50">
+                        <i class="fas fa-trash mr-2"></i>Eliminar Consulta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

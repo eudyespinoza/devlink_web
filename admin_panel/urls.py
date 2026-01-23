@@ -26,4 +26,9 @@ urlpatterns = [
     
     # Reportes WhatsApp
     path('whatsapp-report/<int:user_id>/', views.whatsapp_report, name='whatsapp_report'),
+    
+    # Consultas de Contacto
+    path('contact-requests/', views.contact_requests_list, name='contact_requests'),
+    path('contact-requests/<int:contact_id>/', views.contact_request_detail, name='contact_request_detail'),
+    path('contact-requests/<int:contact_id>/delete/', views.contact_request_delete, name='contact_request_delete'),
 ]

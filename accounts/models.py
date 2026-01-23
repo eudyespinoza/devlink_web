@@ -110,6 +110,40 @@ class ClientProduct(models.Model):
     def __str__(self):
         return f"{self.client.user.username} - {self.product.name}"
 
+
+class ContactRequest(models.Model):
+    """Modelo para guardar las consultas del formulario de contacto"""
+    STATUS_CHOICES = [
+        ('pending', 'Pendiente'),
+        ('contacted', 'Contactado'),
+        ('converted', 'Convertido'),
+        ('discarded', 'Descartado'),
+    ]
+    
+    nombre = models.CharField(max_length=200, verbose_name="Nombre")
+    email = models.EmailField(verbose_name="Email")
+    empresa = models.CharField(max_length=200, blank=True, verbose_name="Empresa")
+    proyecto = models.TextField(verbose_name="Proyecto")
+    newsletter = models.BooleanField(default=False, verbose_name="Suscripción Newsletter")
+    status = models.CharField(
+        max_length=20, 
+        choices=STATUS_CHOICES, 
+        default='pending',
+        verbose_name="Estado"
+    )
+    notes = models.TextField(blank=True, verbose_name="Notas internas")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de consulta")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Última actualización")
+    
+    class Meta:
+        verbose_name = "Consulta de Contacto"
+        verbose_name_plural = "Consultas de Contacto"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.nombre} - {self.email} ({self.get_status_display()})"
+
+
 # Crear automáticamente el perfil cuando se crea un usuario cliente
 from django.db.models.signals import post_save
 from django.dispatch import receiver

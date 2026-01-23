@@ -421,14 +421,19 @@ def home_view(request):
         email = request.POST.get('email', '')
         empresa = request.POST.get('empresa', '')
         proyecto = request.POST.get('proyecto', '')
-        newsletter = request.POST.get('newsletter', False)
+        newsletter = request.POST.get('newsletter') == 'on'
         
-        # Aquí puedes agregar lógica para:
-        # 1. Guardar en base de datos
-        # 2. Enviar email de notificación
-        # 3. Integrar con CRM
+        # Guardar en base de datos
+        from .models import ContactRequest
+        contact = ContactRequest.objects.create(
+            nombre=nombre,
+            email=email,
+            empresa=empresa,
+            proyecto=proyecto,
+            newsletter=newsletter
+        )
         
-        # Por ahora, enviamos un email de notificación
+        # Enviar email de notificación
         try:
             from django.core.mail import send_mail
             from django.conf import settings
@@ -441,10 +446,13 @@ def home_view(request):
             Empresa: {empresa}
             Proyecto: {proyecto}
             Newsletter: {'Sí' if newsletter else 'No'}
+            
+            ID de consulta: #{contact.id}
+            Ver en panel: https://devlink.com.ar/admin-panel/contact-requests/
             """
             
             send_mail(
-                subject=f'Nuevo contacto: {nombre}',
+                subject=f'Nueva consulta #{contact.id}: {nombre}',
                 message=mensaje,
                 from_email=settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else 'info@devlink.com.ar',
                 recipient_list=['info@devlink.com.ar'],
