@@ -3,11 +3,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client, save_question_client
+from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client, save_question_client, home_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('', home_view, name='home'),
     path('portal/', login_view, name='portal'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

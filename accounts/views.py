@@ -412,3 +412,48 @@ def save_question_client(request):
         return JsonResponse({
             'error': f'Error al actualizar: {str(e)}'
         }, status=500)
+
+
+def home_view(request):
+    """Vista para la página principal con formulario de contacto"""
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre', '')
+        email = request.POST.get('email', '')
+        empresa = request.POST.get('empresa', '')
+        proyecto = request.POST.get('proyecto', '')
+        newsletter = request.POST.get('newsletter', False)
+        
+        # Aquí puedes agregar lógica para:
+        # 1. Guardar en base de datos
+        # 2. Enviar email de notificación
+        # 3. Integrar con CRM
+        
+        # Por ahora, enviamos un email de notificación
+        try:
+            from django.core.mail import send_mail
+            from django.conf import settings
+            
+            mensaje = f"""
+            Nuevo contacto desde el sitio web:
+            
+            Nombre: {nombre}
+            Email: {email}
+            Empresa: {empresa}
+            Proyecto: {proyecto}
+            Newsletter: {'Sí' if newsletter else 'No'}
+            """
+            
+            send_mail(
+                subject=f'Nuevo contacto: {nombre}',
+                message=mensaje,
+                from_email=settings.DEFAULT_FROM_EMAIL if hasattr(settings, 'DEFAULT_FROM_EMAIL') else 'info@devlink.com.ar',
+                recipient_list=['info@devlink.com.ar'],
+                fail_silently=True,
+            )
+        except Exception as e:
+            print(f"Error enviando email: {e}")
+        
+        messages.success(request, '¡Gracias por contactarnos! Te responderemos en menos de 24 horas.')
+        return redirect('/#contacto')
+    
+    return render(request, 'index.html')
