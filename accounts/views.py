@@ -465,3 +465,9 @@ def home_view(request):
         return redirect('/#contacto')
     
     return render(request, 'index.html')
+
+
+@login_required
+def documentacion_view(request):
+    """Vista protegida para la documentación - solo usuarios logueados"""
+    return render(request, 'documentacion.html')

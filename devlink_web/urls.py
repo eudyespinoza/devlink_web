@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client, save_question_client, home_view
+from accounts.views import login_view, logout_view, dashboard_view, whatsapp_report_client, edit_questions_client, save_question_client, home_view, documentacion_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,9 +17,11 @@ urlpatterns = [
     path('dashboard/save-question/', save_question_client, name='save_question_client'),
     path('admin-panel/', include('admin_panel.urls')),
     
+    # Documentación (solo usuarios logueados)
+    path('documentacion/', documentacion_view, name='documentacion'),
+    
     # Páginas estáticas existentes
     path('aviso-iluminacion/', TemplateView.as_view(template_name='aviso-iluminacion.html'), name='aviso_iluminacion'),
-    path('documentacion/', TemplateView.as_view(template_name='documentacion.html'), name='documentacion'),
     path('email-bienvenida/', TemplateView.as_view(template_name='email-bienvenida.html'), name='email_bienvenida'),
     path('email-preview/', TemplateView.as_view(template_name='email-preview.html'), name='email_preview'),
     path('politicas-privacidad/', TemplateView.as_view(template_name='politicas-privacidad.html'), name='politicas_privacidad'),
