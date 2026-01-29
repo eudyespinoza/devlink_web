@@ -114,3 +114,7 @@ staticfiles/
 
 # Docker
 .dockerignore
+emails_enviados.txt
+mails.xlsx
+send_mass_campaign.py
+accounts/migrations/0003_contactrequest.py
